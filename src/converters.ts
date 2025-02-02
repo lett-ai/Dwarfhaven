@@ -19,9 +19,7 @@ declare global {
     /** Identifies the accent color (returned as hex code without leading `#`). */
     image2Color: (url: string, dark?: boolean) => Promise<string | null>
     /** Converts a file extension to a FontAwesom icon. */
-    ext2FontAwesomeIcon: (ext: string) => string
-    /** Converts a file extension to an SVG icon. */
-    ext2SVGIcon: (ext: string) => string
+    ext2Icon: (ext: string) => string
     /** Decodes a JWT token to a JSON object */
     decodeJWT: (token: string) => any
     ColorThief: any
@@ -90,273 +88,146 @@ window.image2Color = (url: string, dark?: boolean) => new Promise((s, _) => {
   image.src = url
 })
 
-window.ext2FontAwesomeIcon = (ext: string) =>  {
+window.ext2Icon = (ext: string) =>  {
   switch (ext) {
     case 'gz':
-      return 'fa-file-archive'
+      return 'lucide:file-archive'
     case 'zip':
-      return 'fa-file-archive'
+      return 'lucide:file-archive'
     case 'tar':
-      return 'fa-file-archive'
+      return 'lucide:file-archive'
     case '7z':
-      return 'fa-file-archive'
+      return 'lucide:file-archive'
     case 'rar':
-      return 'fa-file-archive'
+      return 'lucide:file-archive'
 
     case 'mp3':
-      return 'fa-file-audio'
+      return 'lucide:file-music'
     case 'aac':
-      return 'fa-file-audio'
+      return 'lucide:file-music'
     case 'ogg':
-      return 'fa-file-audio'
+      return 'lucide:file-music'
     case 'wav':
-      return 'fa-file-audio'
+      return 'lucide:file-music'
     case 'raw':
-      return 'fa-file-audio'
+      return 'lucide:file-digit'
 
     case 'js':
-      return 'fa-file-code'
+      return 'lucide:file-code'
     case 'css':
-      return 'fa-file-code'
+      return 'lucide:file-code'
     case 'cpp':
-      return 'fa-file-code'
+      return 'lucide:file-code'
     case 'java':
-      return 'fa-file-code'
+      return 'lucide:file-code'
     case 'class':
-      return 'fa-file-code'
+      return 'lucide:file-code'
     case 'py':
-      return 'fa-file-code'
+      return 'lucide:file-code'
     case 'cs':
-      return 'fa-file-code'
+      return 'lucide:file-code'
     case 'gml':
-      return 'fa-file-code'
+      return 'lucide:file-code'
     case 'bin':
-      return 'fa-file-code'
+      return 'lucide:file-code'
     case 'asm':
-      return 'fa-file-code'
+      return 'lucide:file-code'
     case 'pl':
-      return 'fa-file-code'
+      return 'lucide:file-code'
     case 'hs':
-      return 'fa-file-code'
+      return 'lucide:file-code'
     case 'jsx':
-      return 'fa-file-code'
+      return 'lucide:file-code'
     case 'ts':
-      return 'fa-file-code'
+      return 'lucide:file-code'
     case 'html':
-      return 'fa-file-code'
+      return 'lucide:file-code'
     case 'json':
-      return 'fa-file-code'
+      return 'lucide:file-json-2'
     case 'sh':
-      return 'fa-file-code'
+      return 'lucide:file-code'
     case 'env':
-      return 'fa-file-code'
+      return 'lucide:file-code'
 
     case 'xls':
-      return 'fa-file-excel'
+      return 'lucide:file-spreadsheet'
     case 'xlsx':
-      return 'fa-file-excel'
+      return 'lucide:file-spreadsheet'
     case 'csv':
-      return 'fa-file-excel'
+      return 'lucide:file-spreadsheet'
     case 'numbers':
-      return 'fa-file-excel'
+      return 'lucide:file-chart-column'
 
     case 'jpg':
-      return 'fa-file-image'
+      return 'lucide:file-image'
     case 'jpeg':
-      return 'fa-file-image'
+      return 'lucide:file-image'
     case 'png':
-      return 'fa-file-image'
+      return 'lucide:file-image'
     case 'gif':
-      return 'fa-file-image'
+      return 'lucide:file-image'
     case 'psd':
-      return 'fa-file-image'
+      return 'lucide:file-image'
     case 'ai':
-      return 'fa-file-image'
+      return 'lucide:file-image'
     case 'tiff':
-      return 'fa-file-image'
+      return 'lucide:file-image'
     case 'bmp':
-      return 'fa-file-image'
+      return 'lucide:file-image'
     case 'riff':
-      return 'fa-file-image'
+      return 'lucide:file-image'
     case 'xbmp':
-      return 'fa-file-image'
+      return 'lucide:file-image'
     case 'webp':
-      return 'fa-file-image'
+      return 'lucide:file-image'
     case 'svg':
-      return 'fa-file-image'
+      return 'lucide:file-image'
+    case 'heic':
+      return 'lucide:file-image'
+    case 'ico':
+      return 'lucide:file-image'
+    case 'icns':
+      return 'lucide:file-image'
+    case 'heif':
+      return 'lucide:file-image'
 
     case 'mp4':
-      return 'fa-file-movie'
+      return 'lucide:file-video'
     case 'avi':
-      return 'fa-file-movie'
+      return 'lucide:file-video'
     case 'wmv':
-      return 'fa-file-movie'
+      return 'lucide:file-video'
     case 'flv':
-      return 'fa-file-movie'
+      return 'lucide:file-video'
     case 'mov':
-      return 'fa-file-movie'
+      return 'lucide:file-video'
     case 'webm':
-      return 'fa-file-movie'
+      return 'lucide:file-video'
     case 'mpeg':
-      return 'fa-file-movie'
+      return 'lucide:file-video'
     case 'mpg':
-      return 'fa-file-movie'
+      return 'lucide:file-video'
     case 'mpv':
-      return 'fa-file-movie'
+      return 'lucide:file-video'
 
     case 'doc':
-      return 'fa-file-word'
+      return 'lucide:file-type-2'
     case 'docx':
-      return 'fa-file-word'
+      return 'lucide:file-pen'
     case 'txt':
-      return 'fa-file-text'
+      return 'lucide:file-type'
     case 'pdf':
-      return 'fa-file-pdf'
+      return 'lucide:file-text'
 
     case 'ppt':
-      return 'fa-file-powerpoint'
+      return 'lucide:presentation'
     case 'pptx':
-      return 'fa-file-powerpoint'
+      return 'lucide:presentation'
     case 'odp':
-      return 'fa-file-powerpoint'
+      return 'lucide:presentation'
 
     default:
-      return 'fa-file'
-  }
-}
-
-window.ext2SVGIcon = (ext: string) =>  {
-  switch (ext) {
-    case 'gz':
-      return 'file-archive.svg'
-    case 'zip':
-      return 'file-archive.svg'
-    case 'tar':
-      return 'file-archive.svg'
-    case '7z':
-      return 'file-archive.svg'
-    case 'rar':
-      return 'file-archive.svg'
-
-    case 'mp3':
-      return 'file-audio.svg'
-    case 'aac':
-      return 'file-audio.svg'
-    case 'ogg':
-      return 'file-audio.svg'
-    case 'wav':
-      return 'file-audio.svg'
-    case 'raw':
-      return 'file-audio.svg'
-
-    case 'js':
-      return 'file-code.svg'
-    case 'css':
-      return 'file-code.svg'
-    case 'cpp':
-      return 'file-code.svg'
-    case 'java':
-      return 'file-code.svg'
-    case 'class':
-      return 'file-code.svg'
-    case 'py':
-      return 'file-code.svg'
-    case 'cs':
-      return 'file-code.svg'
-    case 'gml':
-      return 'file-code.svg'
-    case 'bin':
-      return 'file-code.svg'
-    case 'asm':
-      return 'file-code.svg'
-    case 'pl':
-      return 'file-code.svg'
-    case 'hs':
-      return 'file-code.svg'
-    case 'jsx':
-      return 'file-code.svg'
-    case 'ts':
-      return 'file-code.svg'
-    case 'html':
-      return 'file-code.svg'
-    case 'json':
-      return 'file-code.svg'
-    case 'sh':
-      return 'file-code.svg'
-    case 'env':
-      return 'file-code.svg'
-
-    case 'xls':
-      return 'file-sheet.svg'
-    case 'xlsx':
-      return 'file-sheet.svg'
-    case 'csv':
-      return 'file-sheet.svg'
-    case 'numbers':
-      return 'file-sheet.svg'
-
-    case 'jpg':
-      return 'file-img.svg'
-    case 'jpeg':
-      return 'file-img.svg'
-    case 'png':
-      return 'file-img.svg'
-    case 'gif':
-      return 'file-img.svg'
-    case 'psd':
-      return 'file-img.svg'
-    case 'ai':
-      return 'file-img.svg'
-    case 'tiff':
-      return 'file-img.svg'
-    case 'bmp':
-      return 'file-img.svg'
-    case 'riff':
-      return 'file-img.svg'
-    case 'xbmp':
-      return 'file-img.svg'
-    case 'webp':
-      return 'file-img.svg'
-    case 'svg':
-      return 'file-img.svg'
-
-    case 'mp4':
-      return 'file-video.svg'
-    case 'avi':
-      return 'file-video.svg'
-    case 'wmv':
-      return 'file-video.svg'
-    case 'flv':
-      return 'file-video.svg'
-    case 'mov':
-      return 'file-video.svg'
-    case 'webm':
-      return 'file-video.svg'
-    case 'mpeg':
-      return 'file-video.svg'
-    case 'mpg':
-      return 'file-video.svg'
-    case 'mpv':
-      return 'file-video.svg'
-
-    case 'doc':
-      return 'file-doc.svg'
-    case 'docx':
-      return 'file-doc.svg'
-    case 'txt':
-      return 'file-doc.svg'
-    case 'pdf':
-      return 'file-pdf.svg'
-
-    case 'ppt':
-      return 'file-ppt.svg'
-    case 'pptx':
-      return 'file-ppt.svg'
-    case 'odp':
-      return 'file-ppt.svg'
-
-    default:
-      return 'file-file.svg'
+      return 'lucide:file'
   }
 }
 

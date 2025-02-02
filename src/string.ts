@@ -10,27 +10,16 @@ declare global {
     capitalize: () => string
     /** Encodes a string to hexadecimal. */
     hexEncode: () => string
-    /** Gets the domain of a URL. */
+    /** Gets the domain of a URL, does not need a protocol */
     getDomain: () => string | null
-    /** Gets the avatar of an email address.
-     * Requires BoringAvatars and jdenticon to be loaded.
-     * Relies on a SVG2PNG polyfill.
-    */
-    getAvatar: (opts: {
-      defaultTo?: string,
-      useBoringAvatars?: boolean,
-      useJdenticon?: boolean,
-      colorPalette?: string[],
-    }) => Promise<string | null>
+    /** Gets the avatar, either from Gravatar (emails only) or from Vercel */
+    getAvatar: () => Promise<string | null>
+    /** Gets the logo of a company via domain, should not have a protocol */
+    getLogo: () => Promise<string | null>
   }
   interface Array<T> {
     /** Joins up to `to` elements of an array with the specified separator. */
     joinTo: (to: number, separator: string) => string
-  }
-  interface Window {
-    BoringAvatars: any
-    SVG2PNG: any
-    jdenticon: any
   }
   const CryptoJS: any
 }
@@ -62,6 +51,7 @@ Array.prototype.joinTo = function (to, separator) {
   if (this.length > toJoin.length) { return toJoin.join(separator || ',') + ' + ' + (this.length - toJoin.length) } else return toJoin.join(separator || ',')
 }
 
+/* Gets the domain of a URL, does not need a protocol */
 String.prototype.getDomain = function () {
   try {
     let url
@@ -76,70 +66,23 @@ String.prototype.getDomain = function () {
   }
 }
 
-String.prototype.getAvatar = async function ({
-  defaultTo='assets/img/avatar.png',
-  useBoringAvatars=true,
-  useJdenticon=false,
-  colorPalette=["#F6F6F6", "#FFFFFF", "#2B4192", "#486FFF", "#486FFF"]
-}) {
+/* Gets the avatar, either from Gravatar (emails only, requires CryptoJS) or from Vercel */
+String.prototype.getAvatar = async function () {
   const email = this.toString()
 
-  // look for gravatar first
-  const hash = CryptoJS.MD5(email)
-  const s = await fetch('https://www.gravatar.com/avatar/' + hash.toString() + '?d=404')
-  if (s.status != 404) return 'https://www.gravatar.com/avatar/' + hash.toString() + '?d=404'
+  try {
+    const hash = CryptoJS.MD5(email)
+    const s = await fetch('https://www.gravatar.com/avatar/' + hash.toString() + '?d=404')
+    if (s.status != 404) return 'https://www.gravatar.com/avatar/' + hash.toString() + '?d=404'
+  } catch { }
 
-  const mailProviders = [
-    'gmail.com',
-    'office365.com',
-    'live.com',
-    'hotmail.com',
-    'outlook.com',
-    '@aol.com',
-    'yahoo.com',
-    '@me.com',
-    '@icloud.com',
-  ]
-  const specialProviders = {
-    'gmail.com': 'assets/img/gmail.png',
-    'hotmail.com': 'assets/img/microsoft.png',
-    'outlook.com': 'assets/img/microsoft.png',
-    'live.com': 'assets/img/microsoft.png',
-    'office365.com': 'assets/img/microsoft.png',
-  }
+  return 'https://avatar.vercel.sh/' + email
+}
 
-  const fallback = () => {
-    if (useBoringAvatars) {
-      try {
-        const svg = window.BoringAvatars.beam.default(email, colorPalette)
-        return window.SVG2PNG(svg)
-      } catch(e) {
-        return defaultTo
-      }
-    }
-    else if (useJdenticon) {
-      try {
-        const svg = window.jdenticon.toSvg(email, 200);
-        return window.SVG2PNG(svg)
-      } catch(e) {
-        return defaultTo
-      }
-    }
-    // if (specialProviders[provider]) return specialProviders[provider]
-    return defaultTo
-  }
-
-  const provider = mailProviders.filter(provider => email.endsWith(provider))?.[0]
-  if (provider) {
-    //? mass mail providers should show jdenticon/boring avatars instead of generic logos :)
-    return fallback()
-  }
-  // try asking clearbit if they know
-  const u = 'https://logo.clearbit.com/' + email.split('@')[1]
-  const s2 = await fetch(u)
-  if (s2.status != 200) {
-    // still no? try the fallback
-    return fallback()
-  }
-  return u
+/* Gets the logo of a company via domain, should not have a protocol */
+String.prototype.getLogo = async function () {
+  const url = this.toString()
+  const s = await fetch('https://logo.clearbit.com/' + url)
+  if (s.status != 200) return null
+  return s.url
 }
